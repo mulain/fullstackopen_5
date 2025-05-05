@@ -1,4 +1,7 @@
+// external
 import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
+
 const baseUrl = '/api/login'
 
 const login = async (credentials) => {
@@ -7,11 +10,22 @@ const login = async (credentials) => {
     throw new Error('Invalid credentials')
   }
   const user = response.data
-  localStorage.setItem('loggedInUser', JSON.stringify(user))
+  user.id = getUserIdFromToken(user.token)
 
+  localStorage.setItem('loggedInUser', JSON.stringify(user))
   setAuthHeader(user.token)
 
   return user
+}
+
+const getUserIdFromToken = (token) => {
+  try {
+    const decoded = jwtDecode(token)
+    return decoded.id
+  } catch (error) {
+    console.error('Error decoding token', error)
+    return null
+  }
 }
 
 const setAuthHeader = (token) => {

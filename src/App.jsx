@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from 'react'
 
 // local
-import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import CreateBlogForm from './components/CreateBlogForm'
@@ -13,19 +12,10 @@ import Togglable from './components/Togglable'
 import './index.css'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
   const toggleCreateBlogFormRef = useRef()
   const toggleLoginFormRef = useRef()
-
-  useEffect(() => {
-    const fetchAndSetBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
-    fetchAndSetBlogs()
-  }, [])
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedInUser')
@@ -71,7 +61,7 @@ const App = () => {
               }
             />
           </Togglable>
-          <BlogList blogs={blogs} />
+          <BlogList user={user} notify={notify} />
         </>
       )}
     </>

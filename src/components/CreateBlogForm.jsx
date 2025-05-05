@@ -4,7 +4,7 @@ import { useState } from 'react'
 // local
 import blogService from '../services/blogs'
 
-const CreateBlogForm = ({ setNotification }) => {
+const CreateBlogForm = ({ notify, onSuccess }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -18,26 +18,15 @@ const CreateBlogForm = ({ setNotification }) => {
         url,
       }
       const result = await blogService.create(newBlog)
-      setNotification({
-        message: `New blog "${result.title}" by ${result.author} added`,
-        type: 'success',
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 2000)
+      notify(`New blog "${result.title}" by ${result.author} added`, 'success')
       setTitle('')
       setAuthor('')
       setUrl('')
+      onSuccess()
     } catch (exception) {
       const errorMessage =
         exception.response?.data?.error || 'Error creating blog'
-      setNotification({
-        message: errorMessage,
-        type: 'error',
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 2000)
+      notify(errorMessage, 'error')
     }
   }
 
@@ -52,6 +41,7 @@ const CreateBlogForm = ({ setNotification }) => {
           id="title"
           name="title"
           required
+          value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
       </div>
@@ -61,6 +51,7 @@ const CreateBlogForm = ({ setNotification }) => {
           type="text"
           id="author"
           name="author"
+          value={author}
           required
           onChange={({ target }) => setAuthor(target.value)}
         />
@@ -71,6 +62,7 @@ const CreateBlogForm = ({ setNotification }) => {
           type="text"
           id="url"
           name="url"
+          value={url}
           required
           onChange={({ target }) => setUrl(target.value)}
         />

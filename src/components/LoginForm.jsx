@@ -4,7 +4,7 @@ import { useState } from 'react'
 // local
 import loginService from '../services/login'
 
-const LoginForm = ({ setUser, setNotification }) => {
+const LoginForm = ({ setUser, notify }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -19,21 +19,9 @@ const LoginForm = ({ setUser, setNotification }) => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setNotification({
-        message: `Welcome ${user.name}`,
-        type: 'success',
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 2000)
+      notify(`Welcome ${user.name}`, 'success')
     } catch (exception) {
-      setNotification({
-        message: 'Wrong username or password',
-        type: 'error',
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 2000)
+      notify('Wrong username or password', 'error')
     }
   }
 

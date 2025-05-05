@@ -1,17 +1,11 @@
 // local
 import loginService from '../services/login'
 
-const UserBox = ({ user, setUser, setNotification }) => {
+const UserBox = ({ user, setUser, notify }) => {
   const handleLogout = () => {
     loginService.logout()
     setUser(null)
-    setNotification({
-      message: 'Logged out successfully',
-      type: 'success',
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 2000)
+    notify('Logged out successfully', 'success')
   }
 
   return (

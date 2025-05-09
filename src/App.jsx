@@ -16,6 +16,7 @@ const App = () => {
   const [notification, setNotification] = useState(null)
   const toggleCreateBlogFormRef = useRef()
   const toggleLoginFormRef = useRef()
+  const blogListRef = useRef()
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedInUser')
@@ -56,12 +57,13 @@ const App = () => {
           >
             <CreateBlogForm
               notify={notify}
-              onSuccess={() =>
+              onSuccess={() => {
+                blogListRef.current.fetchAndSetBlogs()
                 toggleCreateBlogFormRef.current.toggleVisibility()
-              }
+              }}
             />
           </Togglable>
-          <BlogList user={user} notify={notify} />
+          <BlogList user={user} notify={notify} ref={blogListRef} />
         </>
       )}
     </>

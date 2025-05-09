@@ -39,7 +39,7 @@ const CreateBlogForm = ({ notify, onSuccess }) => {
         <input
           type="text"
           id="title"
-          name="title"
+          placeholder="title"
           required
           value={title}
           onChange={({ target }) => setTitle(target.value)}
@@ -50,7 +50,7 @@ const CreateBlogForm = ({ notify, onSuccess }) => {
         <input
           type="text"
           id="author"
-          name="author"
+          placeholder="author"
           value={author}
           required
           onChange={({ target }) => setAuthor(target.value)}
@@ -61,7 +61,7 @@ const CreateBlogForm = ({ notify, onSuccess }) => {
         <input
           type="text"
           id="url"
-          name="url"
+          placeholder="URL"
           value={url}
           required
           onChange={({ target }) => setUrl(target.value)}

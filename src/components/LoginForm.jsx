@@ -27,14 +27,14 @@ const LoginForm = ({ setUser, notify }) => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
+    <form id="login-form" onSubmit={handleLogin}>
       <h2>log in to application</h2>
       <div>
         username
         <input
           type="text"
           value={username}
-          name="Username"
+          placeholder="Username"
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
@@ -43,7 +43,7 @@ const LoginForm = ({ setUser, notify }) => {
         <input
           type="password"
           value={password}
-          name="Password"
+          placeholder="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
@@ -52,7 +52,7 @@ const LoginForm = ({ setUser, notify }) => {
   )
 }
 
-LoginForm.PropTypes = {
+LoginForm.propTypes = {
   setUser: PropTypes.func.isRequired,
   notify: PropTypes.func.isRequired,
 }

@@ -1,20 +1,27 @@
 // external
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
 
 // local
 import blogService from '../services/blogs'
 import Blog from './Blog'
 
-const BlogList = ({ user, notify }) => {
+const BlogList = forwardRef(({ user, notify }, ref) => {
   const [blogs, setBlogs] = useState([])
 
+  const fetchAndSetBlogs = async () => {
+    const blogs = await blogService.getAll()
+    setBlogs(blogs)
+  }
+
   useEffect(() => {
-    const fetchAndSetBlogs = async () => {
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-    }
     fetchAndSetBlogs()
   }, [])
+
+  useImperativeHandle(ref, () => {
+    return {
+      fetchAndSetBlogs,
+    }
+  })
 
   const handleLike = async (blogToLike) => {
     const updatedBlog = {
@@ -76,6 +83,8 @@ const BlogList = ({ user, notify }) => {
       ))}
     </>
   )
-}
+})
+
+BlogList.displayName = 'BlogList'
 
 export default BlogList
